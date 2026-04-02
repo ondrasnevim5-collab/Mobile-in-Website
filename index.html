@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Samsung Galaxy</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Samsung+One:wght@400;700&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- LOCK SCREEN -->
+<div id="lockScreen" class="screen active">
+  <div class="lock-bg"></div>
+  <div class="lock-overlay"></div>
+  <div class="lock-content">
+    <div class="lock-time" id="lockTime">00:00</div>
+    <div class="lock-date" id="lockDate">Pátek, 3. dubna</div>
+    <div class="lock-notifications">
+      <div class="notif-item">
+        <span class="notif-icon">✉️</span>
+        <span>3 nové zprávy</span>
+      </div>
+      <div class="notif-item">
+        <span class="notif-icon">🔔</span>
+        <span>Alarm – 7:00</span>
+      </div>
+    </div>
+    <div class="swipe-hint" id="swipeHint">
+      <span>Přejetím odemknout</span>
+      <div class="swipe-arrow">↑</div>
+    </div>
+  </div>
+  <div class="lock-bottom-icons">
+    <div class="lock-icon" onclick="unlockPhone()">📞</div>
+    <div class="lock-unlock-btn" onclick="unlockPhone()">🔓</div>
+    <div class="lock-icon">📷</div>
+  </div>
+</div>
+
+<!-- STATUS BAR (shared) -->
+<div id="statusBar" class="status-bar hidden">
+  <span id="statusTime">00:00</span>
+  <div class="status-icons">
+    <span>▲</span>
+    <span>WiFi</span>
+    <span>🔋</span>
+  </div>
+</div>
+
+<!-- HOME SCREEN -->
+<div id="homeScreen" class="screen hidden">
+  <div class="wallpaper"></div>
+  <div class="home-content">
+    <div class="home-time" id="homeTime">00:00</div>
+    <div class="home-date" id="homeDate">Pátek, 3. dubna</div>
+
+    <div class="app-grid">
+      <!-- Phone -->
+      <div class="app-icon" onclick="openApp('phone')">
+        <div class="app-img phone-icon">📞</div>
+        <span>Telefon</span>
+      </div>
+      <!-- Email -->
+      <div class="app-icon" onclick="openApp('email')">
+        <div class="app-img email-icon">✉️</div>
+        <span>Email</span>
+        <div class="badge">3</div>
+      </div>
+      <!-- Browser -->
+      <div class="app-icon" onclick="openApp('browser')">
+        <div class="app-img browser-icon">🌐</div>
+        <span>Internet</span>
+      </div>
+      <!-- Apps -->
+      <div class="app-icon" onclick="openApp('apps')">
+        <div class="app-img apps-icon">📱</div>
+        <span>Aplikace</span>
+      </div>
+      <!-- Alarm -->
+      <div class="app-icon" onclick="openApp('alarm')">
+        <div class="app-img alarm-icon">⏰</div>
+        <span>Budík</span>
+      </div>
+      <!-- Music -->
+      <div class="app-icon" onclick="openApp('music')">
+        <div class="app-img music-icon">🎵</div>
+        <span>Hudba</span>
+      </div>
+      <!-- Camera -->
+      <div class="app-icon" onclick="openApp('camera')">
+        <div class="app-img camera-icon">📷</div>
+        <span>Fotoaparát</span>
+      </div>
+      <!-- Settings -->
+      <div class="app-icon" onclick="openApp('settings')">
+        <div class="app-img settings-icon">⚙️</div>
+        <span>Nastavení</span>
+      </div>
+    </div>
+
+    <!-- Dock -->
+    <div class="dock">
+      <div class="app-icon dock-item" onclick="openApp('phone')">
+        <div class="app-img phone-icon">📞</div>
+      </div>
+      <div class="app-icon dock-item" onclick="openApp('email')">
+        <div class="app-img email-icon">✉️</div>
+      </div>
+      <div class="app-icon dock-item" onclick="openApp('browser')">
+        <div class="app-img browser-icon">🌐</div>
+      </div>
+      <div class="app-icon dock-item" onclick="openApp('apps')">
+        <div class="app-img apps-icon">📱</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== APP: PHONE ========== -->
+<div id="app-phone" class="app-screen hidden">
+  <div class="app-header">
+    <button class="back-btn" onclick="closeApp('phone')">← Zpět</button>
+    <h2>Telefon</h2>
+  </div>
+  <div class="app-body">
+    <div class="phone-display" id="phoneDisplay">
+      <span id="dialNumber"></span>
+      <span class="cursor">|</span>
+    </div>
+    <div class="dialpad">
+      <div class="dial-row">
+        <button class="dial-btn" onclick="dialPress('1')"><span class="d-num">1</span><span class="d-sub"></span></button>
+        <button class="dial-btn" onclick="dialPress('2')"><span class="d-num">2</span><span class="d-sub">ABC</span></button>
+        <button class="dial-btn" onclick="dialPress('3')"><span class="d-num">3</span><span class="d-sub">DEF</span></button>
+      </div>
+      <div class="dial-row">
+        <button class="dial-btn" onclick="dialPress('4')"><span class="d-num">4</span><span class="d-sub">GHI</span></button>
+        <button class="dial-btn" onclick="dialPress('5')"><span class="d-num">5</span><span class="d-sub">JKL</span></button>
+        <button class="dial-btn" onclick="dialPress('6')"><span class="d-num">6</span><span class="d-sub">MNO</span></button>
+      </div>
+      <div class="dial-row">
+        <button class="dial-btn" onclick="dialPress('7')"><span class="d-num">7</span><span class="d-sub">PQRS</span></button>
+        <button class="dial-btn" onclick="dialPress('8')"><span class="d-num">8</span><span class="d-sub">TUV</span></button>
+        <button class="dial-btn" onclick="dialPress('9')"><span class="d-num">9</span><span class="d-sub">WXYZ</span></button>
+      </div>
+      <div class="dial-row">
+        <button class="dial-btn" onclick="dialPress('*')"><span class="d-num">*</span></button>
+        <button class="dial-btn" onclick="dialPress('0')"><span class="d-num">0</span><span class="d-sub">+</span></button>
+        <button class="dial-btn" onclick="dialPress('#')"><span class="d-num">#</span></button>
+      </div>
+      <div class="dial-row dial-actions">
+        <button class="dial-action-btn delete-btn" onclick="dialDelete()">⌫</button>
+        <button class="dial-action-btn call-btn" onclick="makeCall()">📞</button>
+      </div>
+    </div>
+    <div class="recent-calls">
+      <h3>Nedávné hovory</h3>
+      <div class="call-item incoming"><span>📞 Maminka</span><span>Příchozí – 10:23</span></div>
+      <div class="call-item missed"><span>📞 Tomáš</span><span>Zmeškaný – 9:05</span></div>
+      <div class="call-item outgoing"><span>📞 Práce</span><span>Odchozí – včera</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== APP: EMAIL ========== -->
+<div id="app-email" class="app-screen hidden">
+  <div class="app-header">
+    <button class="back-btn" onclick="closeApp('email')">← Zpět</button>
+    <h2>Email</h2>
+    <button class="compose-btn" onclick="showCompose()">✏️</button>
+  </div>
+  <div class="app-body">
+    <div class="email-tabs">
+      <button class="etab active" onclick="switchEmailTab('inbox', this)">Doručené <span class="etab-badge">3</span></button>
+      <button class="etab" onclick="switchEmailTab('sent', this)">Odeslaná</button>
+      <button class="etab" onclick="switchEmailTab('spam', this)">Spam</button>
+    </div>
+    <div id="emailList">
+      <div class="email-item unread" onclick="openEmail(0)">
+        <div class="email-avatar">A</div>
+        <div class="email-info">
+          <div class="email-from">Adam Novák</div>
+          <div class="email-subject">Schůzka zítra v 10:00</div>
+          <div class="email-preview">Ahoj, nezapomeň na schůzku zítra...</div>
+        </div>
+        <div class="email-meta">10:30<br/><span class="unread-dot"></span></div>
+      </div>
+      <div class="email-item unread" onclick="openEmail(1)">
+        <div class="email-avatar" style="background:#1b74e4">G</div>
+        <div class="email-info">
+          <div class="email-from">Google</div>
+          <div class="email-subject">Bezpečnostní upozornění</div>
+          <div class="email-preview">Detekovali jsme přihlášení z nového...</div>
+        </div>
+        <div class="email-meta">9:15<br/><span class="unread-dot"></span></div>
+      </div>
+      <div class="email-item unread" onclick="openEmail(2)">
+        <div class="email-avatar" style="background:#e53935">S</div>
+        <div class="email-info">
+          <div class="email-from">Samsung</div>
+          <div class="email-subject">Aktualizace One UI 7.0</div>
+          <div class="email-preview">Vaše zařízení je připraveno k aktualizaci...</div>
+        </div>
+        <div class="email-meta">8:00<br/><span class="unread-dot"></span></div>
+      </div>
+      <div class="email-item" onclick="openEmail(3)">
+        <div class="email-avatar" style="background:#43a047">P</div>
+        <div class="email-info">
+          <div class="email-from">Pavel Dvořák</div>
+          <div class="email-subject">Re: Projekt alfa</div>
+          <div class="email-preview">Výborně, pošli mi soubory do pátku...</div>
+        </div>
+        <div class="email-meta">včera</div>
+      </div>
+    </div>
+    <!-- Email Detail -->
+    <div id="emailDetail" class="email-detail hidden">
+      <button class="back-btn small" onclick="closeEmail()">← Zpět</button>
+      <div id="emailDetailContent"></div>
+    </div>
+    <!-- Compose -->
+    <div id="emailCompose" class="email-compose hidden">
+      <button class="back-btn small" onclick="hideCompose()">← Zpět</button>
+      <h3>Nový email</h3>
+      <input type="text" placeholder="Komu:" class="compose-input"/>
+      <input type="text" placeholder="Předmět:" class="compose-input"/>
+      <textarea placeholder="Zpráva..." class="compose-area"></textarea>
+      <button class="send-btn" onclick="sendEmail()">📤 Odeslat</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== APP: BROWSER ========== -->
+<div id="app-browser" class="app-screen hidden">
+  <div class="app-header browser-header">
+    <button class="back-btn" onclick="closeApp('browser')">← Zpět</button>
+    <h2>Internet</h2>
+  </div>
+  <div class="browser-bar">
+    <button class="browser-nav" onclick="browserBack()">‹</button>
+    <input type="text" id="urlBar" class="url-bar" placeholder="Hledat nebo zadat adresu..." value="samsung.com" onkeypress="if(event.key==='Enter') navigate()"/>
+    <button class="browser-nav go-btn" onclick="navigate()">→</button>
+  </div>
+  <div class="browser-body">
+    <div id="browserHome" class="browser-home">
+      <div class="browser-logo">🌐 Samsung Internet</div>
+      <div class="quick-access">
+        <div class="quick-item" onclick="goTo('samsung.com')"><div class="qi-icon">S</div><span>Samsung</span></div>
+        <div class="quick-item" onclick="goTo('google.com')"><div class="qi-icon" style="background:#4285f4">G</div><span>Google</span></div>
+        <div class="quick-item" onclick="goTo('youtube.com')"><div class="qi-icon" style="background:#ff0000">Y</div><span>YouTube</span></div>
+        <div class="quick-item" onclick="goTo('github.com')"><div class="qi-icon" style="background:#24292e">GH</div><span>GitHub</span></div>
+        <div class="quick-item" onclick="goTo('wikipedia.org')"><div class="qi-icon" style="background:#636363">W</div><span>Wikipedia</span></div>
+        <div class="quick-item" onclick="goTo('seznam.cz')"><div class="qi-icon" style="background:#cc0000">S</div><span>Seznam</span></div>
+      </div>
+      <div class="browser-news">
+        <h4>Nejnovější zprávy</h4>
+        <div class="news-item"><span>📰</span> Samsung Galaxy S25 Ultra – recenze</div>
+        <div class="news-item"><span>📰</span> One UI 7 – co je nového?</div>
+        <div class="news-item"><span>📰</span> Nejlepší aplikace pro Android 2025</div>
+      </div>
+    </div>
+    <div id="browserPage" class="browser-page hidden">
+      <div id="browserContent"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== APP: APPS ========== -->
+<div id="app-apps" class="app-screen hidden">
+  <div class="app-header">
+    <button class="back-btn" onclick="closeApp('apps')">← Zpět</button>
+    <h2>Aplikace</h2>
+  </div>
+  <div class="app-body">
+    <input type="text" class="app-search" placeholder="🔍 Hledat aplikace..." oninput="filterApps(this.value)"/>
+    <div class="apps-categories">
+      <button class="cat-btn active" onclick="filterCat('all', this)">Vše</button>
+      <button class="cat-btn" onclick="filterCat('social', this)">Sociální</button>
+      <button class="cat-btn" onclick="filterCat('utility', this)">Nástroje</button>
+      <button class="cat-btn" onclick="filterCat('media', this)">Média</button>
+    </div>
+    <div class="apps-grid" id="appsGrid">
+      <div class="grid-app" data-cat="utility" onclick="openApp('phone')"><div class="ga-icon">📞</div><span>Telefon</span></div>
+      <div class="grid-app" data-cat="utility" onclick="openApp('email')"><div class="ga-icon">✉️</div><span>Email</span></div>
+      <div class="grid-app" data-cat="utility" onclick="openApp('browser')"><div class="ga-icon">🌐</div><span>Internet</span></div>
+      <div class="grid-app" data-cat="utility" onclick="openApp('alarm')"><div class="ga-icon">⏰</div><span>Budík</span></div>
+      <div class="grid-app" data-cat="media" onclick="openApp('music')"><div class="ga-icon">🎵</div><span>Hudba</span></div>
+      <div class="grid-app" data-cat="utility"><div class="ga-icon">📷</div><span>Fotoaparát</span></div>
+      <div class="grid-app" data-cat="utility"><div class="ga-icon">🗓️</div><span>Kalendář</span></div>
+      <div class="grid-app" data-cat="utility"><div class="ga-icon">🗺️</div><span>Mapy</span></div>
+      <div class="grid-app" data-cat="social"><div class="ga-icon">💬</div><span>Zprávy</span></div>
+      <div class="grid-app" data-cat="social"><div class="ga-icon">📘</div><span>Facebook</span></div>
+      <div class="grid-app" data-cat="social"><div class="ga-icon">📸</div><span>Instagram</span></div>
+      <div class="grid-app" data-cat="social"><div class="ga-icon">🐦</div><span>Twitter/X</span></div>
+      <div class="grid-app" data-cat="media"><div class="ga-icon">🎬</div><span>Video</span></div>
+      <div class="grid-app" data-cat="media"><div class="ga-icon">📻</div><span>Rádio</span></div>
+      <div class="grid-app" data-cat="utility"><div class="ga-icon">🧮</div><span>Kalkulačka</span></div>
+      <div class="grid-app" data-cat="utility" onclick="openApp('settings')"><div class="ga-icon">⚙️</div><span>Nastavení</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== APP: ALARM ========== -->
+<div id="app-alarm" class="app-screen hidden">
+  <div class="app-header">
+    <button class="back-btn" onclick="closeApp('alarm')">← Zpět</button>
+    <h2>Budík & Hodiny</h2>
+  </div>
+  <div class="app-body">
+    <!-- Clock -->
+    <div class="clock-widget">
+      <div class="analog-clock" id="analogClock">
+        <div class="clock-face">
+          <div class="hand hour-hand" id="hourHand"></div>
+          <div class="hand minute-hand" id="minuteHand"></div>
+          <div class="hand second-hand" id="secondHand"></div>
+          <div class="center-dot"></div>
+          <span class="clock-num n12">12</span>
+          <span class="clock-num n3">3</span>
+          <span class="clock-num n6">6</span>
+          <span class="clock-num n9">9</span>
+        </div>
+      </div>
+      <div class="digital-time" id="digitalTime">00:00:00</div>
+    </div>
+    <!-- Alarms -->
+    <div class="alarm-list">
+      <div class="alarm-header-row">
+        <h3>Budíky</h3>
+        <button class="add-alarm-btn" onclick="showAddAlarm()">+ Přidat</button>
+      </div>
+      <div id="alarmItems">
+        <div class="alarm-item">
+          <div class="alarm-info">
+            <div class="alarm-time-text">07:00</div>
+            <div class="alarm-label">Vstávání</div>
+            <div class="alarm-days">Po–Pá</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" checked onchange="toggleAlarm(this)"/>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="alarm-item">
+          <div class="alarm-info">
+            <div class="alarm-time-text">08:30</div>
+            <div class="alarm-label">Práce</div>
+            <div class="alarm-days">Po–Pá</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" onchange="toggleAlarm(this)"/>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="alarm-item">
+          <div class="alarm-info">
+            <div class="alarm-time-text">10:00</div>
+            <div class="alarm-label">Víkend</div>
+            <div class="alarm-days">So, Ne</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" checked onchange="toggleAlarm(this)"/>
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+      <!-- Add alarm form -->
+      <div id="addAlarmForm" class="add-alarm-form hidden">
+        <h4>Nový budík</h4>
+        <input type="time" id="newAlarmTime" class="alarm-time-input" value="07:00"/>
+        <input type="text" id="newAlarmLabel" class="compose-input" placeholder="Název budíku"/>
+        <div class="alarm-days-picker">
+          <span>Dny:</span>
+          <label><input type="checkbox"/> Po</label>
+          <label><input type="checkbox"/> Út</label>
+          <label><input type="checkbox"/> St</label>
+          <label><input type="checkbox"/> Čt</label>
+          <label><input type="checkbox"/> Pá</label>
+          <label><input type="checkbox"/> So</label>
+          <label><input type="checkbox"/> Ne</label>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:10px">
+          <button class="send-btn" onclick="saveAlarm()">Uložit</button>
+          <button class="back-btn small" onclick="hideAddAlarm()">Zrušit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== APP: MUSIC ========== -->
+<div id="app-music" class="app-screen hidden">
+  <div class="app-header">
+    <button class="back-btn" onclick="closeApp('music')">← Zpět</button>
+    <h2>Hudba & Zvuky</h2>
+  </div>
+  <div class="app-body">
+    <!-- Now Playing -->
+    <div class="now-playing">
+      <div class="album-art" id="albumArt">🎵</div>
+      <div class="song-info">
+        <div class="song-title" id="songTitle">Vyberte skladbu</div>
+        <div class="song-artist" id="songArtist">---</div>
+      </div>
+      <div class="progress-bar-wrap">
+        <span id="currentTime">0:00</span>
+        <input type="range" id="progressBar" class="progress-bar" value="0" min="0" max="100" oninput="seekAudio(this.value)"/>
+        <span id="totalTime">0:00</span>
+      </div>
+      <div class="music-controls">
+        <button class="mc-btn" onclick="prevSong()">⏮</button>
+        <button class="mc-btn play-btn" id="playBtn" onclick="togglePlay()">▶</button>
+        <button class="mc-btn" onclick="nextSong()">⏭</button>
+      </div>
+      <div class="volume-row">
+        <span>🔈</span>
+        <input type="range" id="volumeBar" class="volume-bar" value="80" min="0" max="100" oninput="setVolume(this.value)"/>
+        <span>🔊</span>
+      </div>
+    </div>
+    <!-- Playlist -->
+    <div class="playlist">
+      <h3>Skladby</h3>
+      <div class="playlist-tabs">
+        <button class="ptab active" onclick="switchPlaylistTab('songs',this)">Skladby</button>
+        <button class="ptab" onclick="switchPlaylistTab('sounds',this)">Zvuky</button>
+        <button class="ptab" onclick="switchPlaylistTab('ringtones',this)">Vyzváněcí</button>
+      </div>
+      <div id="songList">
+        <div class="song-item" onclick="playSong(0)">
+          <div class="si-num">1</div>
+          <div class="si-info"><div class="si-title">Summer Breeze</div><div class="si-artist">Demo Track</div></div>
+          <div class="si-dur">3:24</div>
+        </div>
+        <div class="song-item" onclick="playSong(1)">
+          <div class="si-num">2</div>
+          <div class="si-info"><div class="si-title">Night Drive</div><div class="si-artist">Demo Track</div></div>
+          <div class="si-dur">4:12</div>
+        </div>
+        <div class="song-item" onclick="playSong(2)">
+          <div class="si-num">3</div>
+          <div class="si-info"><div class="si-title">Mountain Echo</div><div class="si-artist">Demo Track</div></div>
+          <div class="si-dur">2:55</div>
+        </div>
+        <div class="song-item" onclick="playSong(3)">
+          <div class="si-num">4</div>
+          <div class="si-info"><div class="si-title">City Lights</div><div class="si-artist">Demo Track</div></div>
+          <div class="si-dur">3:48</div>
+        </div>
+        <div class="song-item" onclick="playSong(4)">
+          <div class="si-num">5</div>
+          <div class="si-info"><div class="si-title">Ocean Waves</div><div class="si-artist">Ambient</div></div>
+          <div class="si-dur">5:00</div>
+        </div>
+      </div>
+      <div id="soundList" class="hidden">
+        <div class="song-item" onclick="playSound('rain')"><div class="si-num">🌧️</div><div class="si-info"><div class="si-title">Déšť</div></div><button class="play-sound-btn">▶</button></div>
+        <div class="song-item" onclick="playSound('ocean')"><div class="si-num">🌊</div><div class="si-info"><div class="si-title">Oceán</div></div><button class="play-sound-btn">▶</button></div>
+        <div class="song-item" onclick="playSound('forest')"><div class="si-num">🌲</div><div class="si-info"><div class="si-title">Les</div></div><button class="play-sound-btn">▶</button></div>
+        <div class="song-item" onclick="playSound('fire')"><div class="si-num">🔥</div><div class="si-info"><div class="si-title">Oheň</div></div><button class="play-sound-btn">▶</button></div>
+        <div class="song-item" onclick="playSound('wind')"><div class="si-num">💨</div><div class="si-info"><div class="si-title">Vítr</div></div><button class="play-sound-btn">▶</button></div>
+      </div>
+      <div id="ringtoneList" class="hidden">
+        <div class="song-item"><div class="si-num">📳</div><div class="si-info"><div class="si-title">Over the Horizon</div><div class="si-artist">Samsung Classic</div></div><button class="play-sound-btn" onclick="playTone('tone1')">▶</button></div>
+        <div class="song-item"><div class="si-num">📳</div><div class="si-info"><div class="si-title">Morning Flower</div><div class="si-artist">Samsung</div></div><button class="play-sound-btn" onclick="playTone('tone2')">▶</button></div>
+        <div class="song-item"><div class="si-num">📳</div><div class="si-info"><div class="si-title">Calm</div><div class="si-artist">Samsung</div></div><button class="play-sound-btn" onclick="playTone('tone3')">▶</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== APP: SETTINGS ========== -->
+<div id="app-settings" class="app-screen hidden">
+  <div class="app-header">
+    <button class="back-btn" onclick="closeApp('settings')">← Zpět</button>
+    <h2>Nastavení</h2>
+  </div>
+  <div class="app-body">
+    <div class="settings-section">
+      <div class="settings-item"><span>👤</span><span>Účet Samsung</span><span class="si-arrow">›</span></div>
+      <div class="settings-item"><span>📶</span><span>Připojení</span><span class="si-arrow">›</span></div>
+      <div class="settings-item"><span>🔊</span><span>Zvuk a vibrace</span><span class="si-arrow">›</span></div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-item"><span>🌙</span><span>Tmavý režim</span>
+        <label class="toggle-switch"><input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode(this)"/><span class="slider"></span></label>
+      </div>
+      <div class="settings-item"><span>🔋</span><span>Baterie: 87%</span><span class="si-arrow">›</span></div>
+      <div class="settings-item"><span>🌐</span><span>Jazyk: Čeština</span><span class="si-arrow">›</span></div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-item"><span>📱</span><span>O zařízení</span><span class="si-arrow">›</span></div>
+      <div class="settings-item"><span>🔄</span><span>Aktualizace softwaru</span><span class="si-arrow">›</span></div>
+    </div>
+    <div class="device-info">
+      <div class="device-model">Samsung Galaxy S25</div>
+      <div class="device-sub">One UI 7.0 · Android 15</div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIFICATION POPUP -->
+<div id="notification" class="notification hidden"></div>
+
+<!-- CALLING OVERLAY -->
+<div id="callingOverlay" class="calling-overlay hidden">
+  <div class="calling-bg"></div>
+  <div class="calling-content">
+    <div class="calling-avatar">👤</div>
+    <div class="calling-number" id="callingNumber"></div>
+    <div class="calling-status">Volání...</div>
+    <button class="end-call-btn" onclick="endCall()">📵</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
